@@ -1,0 +1,14 @@
+<view class="container">
+  <view class="title">Almond</view>
+  
+  <block wx:if="{{!isLoggedIn}}">
+    <button bindtap="toLogin">登录</button>
+  </block>
+
+  <block wx:else>
+    <view class="user-area">
+      <view>已登录</view>
+      <button size="mini" type="warn" bindtap="doLogout" style="margin-top:20rpx;">退出登录</button>
+    </view>
+  </block>
+</view>

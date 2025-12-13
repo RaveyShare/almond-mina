@@ -1,0 +1,5 @@
+<view class="container">
+  <view class="title">微信登录</view>
+  <view wx:if="{{qrcodeId}}" class="desc">已携带场景：{{qrcodeId}}</view>
+  <button loading="{{loading}}" disabled="{{loading}}" bindtap="onLogin">登录</button>
+</view>
