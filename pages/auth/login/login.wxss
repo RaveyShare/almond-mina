@@ -1,3 +1,52 @@
-.container{padding:24rpx}
-.title{font-size:32rpx;margin-bottom:16rpx}
-.desc{font-size:24rpx;color:#888;margin-bottom:16rpx}
+/* pages/auth/login/login.wxss */
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  padding: 64rpx;
+  background-color: var(--background);
+}
+
+.logo-area {
+  margin-top: 120rpx;
+  text-align: center;
+}
+
+.logo {
+  font-size: 120rpx;
+  margin-bottom: 32rpx;
+}
+
+.app-name {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: var(--foreground);
+  margin-bottom: 16rpx;
+}
+
+.slogan {
+  font-size: 28rpx;
+  color: var(--muted-foreground);
+}
+
+.action-area {
+  margin-bottom: 64rpx;
+}
+
+.login-btn {
+  background: linear-gradient(135deg, #22d3ee 0%, #8b5cf6 100%);
+  color: #000000;
+  border-radius: 9999rpx;
+  font-weight: bold;
+  font-size: 32rpx;
+  padding: 24rpx 0;
+  width: 100%;
+}
+
+.tips {
+  font-size: 24rpx;
+  color: var(--muted-foreground);
+  text-align: center;
+  margin-top: 32rpx;
+}

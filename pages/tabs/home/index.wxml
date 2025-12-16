@@ -1,0 +1,56 @@
+<view class="container">
+  <!-- Header -->
+  <view class="header">
+    <view class="logo">🧠</view>
+    <text class="title">小杏仁</text>
+  </view>
+
+  <!-- Welcome -->
+  <view class="welcome">
+    <text class="greeting">欢迎回来，{{userInfo.name || userInfo.nickName || '同学'}}</text>
+    <view class="subtitle">今天想记录点什么？</view>
+  </view>
+
+  <!-- Input Section -->
+  <view class="input-card">
+    <!-- Type Toggle -->
+    <view class="toggle-container">
+      <view class="toggle-item {{inputType === 'memory' ? 'active' : ''}}" bindtap="toggleType" data-type="memory">
+        记知识
+      </view>
+      <view class="toggle-item {{inputType === 'task' ? 'active' : ''}}" bindtap="toggleType" data-type="task">
+        记待办
+      </view>
+    </view>
+
+    <!-- Input Box -->
+    <view class="input-box">
+      <textarea 
+        class="textarea"
+        placeholder="{{inputType === 'memory' ? '输入你想永久记住的知识、灵感...' : '输入你的待办事项、下一步计划...'}}"
+        placeholder-class="placeholder"
+        value="{{inputValue}}"
+        bindinput="handleInput"
+        auto-height
+        maxlength="500"
+      />
+      <view class="action-bar">
+        <view class="submit-btn {{loading ? 'disabled' : ''}}" bindtap="handleSubmit">
+           <text class="icon-arrow">↑</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- Dashboard Cards -->
+  <view class="dashboard">
+    <view class="card">
+       <text class="count text-cyan">{{dashboard.reviewCount}}</text>
+       <text class="label">今日待复习</text>
+    </view>
+    <view class="card">
+       <text class="count text-violet">{{dashboard.taskCount}}</text>
+       <text class="label">待办事项</text>
+    </view>
+  </view>
+</view>

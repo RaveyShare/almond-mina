@@ -1,0 +1,49 @@
+<view class="container">
+  <!-- Tabs -->
+  <view class="tabs">
+    <view class="tab-item {{activeTab === 'memory' ? 'active' : ''}}" bindtap="switchTab" data-tab="memory">
+      记忆库
+      <view class="indicator" wx:if="{{activeTab === 'memory'}}"></view>
+    </view>
+    <view class="tab-item {{activeTab === 'task' ? 'active' : ''}}" bindtap="switchTab" data-tab="task">
+      待办清单
+      <view class="indicator" wx:if="{{activeTab === 'task'}}"></view>
+    </view>
+  </view>
+
+  <!-- List Content -->
+  <view class="list-content">
+    
+    <!-- Memory List -->
+    <block wx:if="{{activeTab === 'memory'}}">
+      <view class="list-item" wx:for="{{memoryList}}" wx:key="id">
+        <view class="item-main">
+          <text class="item-title">{{item.title || '无标题'}}</text>
+          <text class="item-desc">{{item.content}}</text>
+        </view>
+        <view class="item-meta">
+           <text class="meta-tag text-cyan">{{item.category || '默认'}}</text>
+           <text class="meta-time">复习: {{item.nextReviewDate || '未计划'}}</text>
+        </view>
+      </view>
+      <view wx:if="{{memoryList.length === 0 && !loading}}" class="empty-state">
+         <text>暂无记忆内容</text>
+      </view>
+    </block>
+
+    <!-- Task List -->
+    <block wx:if="{{activeTab === 'task'}}">
+      <view class="list-item task-item" wx:for="{{taskList}}" wx:key="id">
+        <view class="checkbox {{item.status === 'done' ? 'checked' : ''}}"></view>
+        <view class="item-main">
+          <text class="item-title {{item.status === 'done' ? 'line-through' : ''}}">{{item.title}}</text>
+        </view>
+      </view>
+       <view wx:if="{{taskList.length === 0 && !loading}}" class="empty-state">
+         <text>暂无待办事项</text>
+      </view>
+    </block>
+
+    <view wx:if="{{loading}}" class="loading">加载中...</view>
+  </view>
+</view>

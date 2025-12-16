@@ -1,5 +1,19 @@
 <view class="container">
-  <view class="title">微信登录</view>
-  <view wx:if="{{qrcodeId}}" class="desc">已携带场景：{{qrcodeId}}</view>
-  <button loading="{{loading}}" disabled="{{loading}}" bindtap="onLogin">登录</button>
+  <view class="logo-area">
+    <view class="logo">🧠</view>
+    <view class="app-name">小杏仁</view>
+    <view class="slogan">AI 成长伙伴</view>
+  </view>
+
+  <view class="action-area">
+    <button 
+      class="login-btn" 
+      loading="{{loading}}" 
+      disabled="{{loading}}" 
+      bindtap="onLogin"
+    >
+      微信一键登录
+    </button>
+    <view class="tips">登录即代表同意用户协议与隐私政策</view>
+  </view>
 </view>

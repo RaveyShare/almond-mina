@@ -1,0 +1,87 @@
+/* pages/tabs/profile/index.wxss */
+.profile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 48rpx;
+  background: var(--card);
+  padding: 32rpx;
+  border-radius: 24rpx;
+}
+
+.avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  margin-right: 32rpx;
+  background-color: var(--muted);
+}
+
+.info {
+  flex: 1;
+}
+
+.nickname {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: var(--foreground);
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.uid {
+  font-size: 24rpx;
+  color: var(--muted-foreground);
+}
+
+.stats-grid {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 48rpx;
+}
+
+.stat-item {
+  flex: 1;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: var(--foreground);
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: var(--muted-foreground);
+  display: block;
+}
+
+.menu-list {
+  background: var(--card);
+  border-radius: 24rpx;
+  overflow: hidden;
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32rpx;
+  border-bottom: 1rpx solid var(--border);
+  font-size: 30rpx;
+  color: var(--foreground);
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.arrow {
+  color: var(--muted-foreground);
+}
+
+.text-red {
+  color: #ef4444;
+}
