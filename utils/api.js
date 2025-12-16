@@ -55,8 +55,8 @@ function requestBack(path, method, data, headers = {}) {
   })
 }
 
-export async function userCenterLogin(code, userInfo = null) {
-  const body = { appId: APP_ID, code, userInfo }
+export async function userCenterLogin(code, userInfo = null, encryptedData = null, iv = null) {
+  const body = { appId: APP_ID, code, userInfo, encryptedData, iv }
   const resp = await requestUC('/front/auth/wxMiniAppLogin', 'POST', body)
   if ((resp.code === 0 || resp.code === 200) && resp.data && resp.data.token) {
     return resp.data
@@ -72,6 +72,44 @@ export async function qrScan(qrcodeId) {
 export async function qrConfirm(qrcodeId) {
   const token = getToken()
   return requestUC('/front/auth/qr/confirm', 'POST', { qrcodeId }, { Authorization: `Bearer ${token}` })
+}
+
+export async function updateUserInfo(data) {
+  const token = getToken()
+  const resp = await requestUC('/front/users/update', 'POST', data, { Authorization: `Bearer ${token}` })
+  if (resp.code === 200) {
+    return resp.data
+  }
+  throw new Error(resp.message || '更新失败')
+}
+
+export function uploadAvatar(filePath) {
+  return new Promise((resolve, reject) => {
+    const token = getToken()
+    wx.uploadFile({
+      url: `${USER_CENTER_BASE}/front/users/avatar/upload`,
+      filePath: filePath,
+      name: 'file',
+      header: {
+        'Authorization': `Bearer ${token}`
+      },
+      success(res) {
+        try {
+          const data = JSON.parse(res.data)
+          if (data.code === 200) {
+            resolve(data.data) // URL
+          } else {
+            reject(new Error(data.message || '上传失败'))
+          }
+        } catch (e) {
+          reject(e)
+        }
+      },
+      fail(err) {
+        reject(err)
+      }
+    })
+  })
 }
 
 // Memory Items

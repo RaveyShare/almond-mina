@@ -23,17 +23,17 @@ Page({
       desc: '用于完善会员资料',
       success: (res) => {
         console.log('getUserProfile success:', res.userInfo)
-        this.performLogin(res.userInfo)
+        this.performLogin(res.userInfo, res.encryptedData, res.iv)
       },
       fail: (err) => {
         console.log('getUserProfile fail or denied:', err)
         // 用户拒绝授权或接口不可用，降级为静默登录（无头像昵称）
-        this.performLogin(null)
+        this.performLogin(null, null, null)
       }
     })
   },
 
-  async performLogin(userInfo) {
+  async performLogin(userInfo, encryptedData, iv) {
     this.setData({ loading: true })
     console.log('Starting login process with userInfo:', userInfo)
     
@@ -53,34 +53,32 @@ Page({
       })
 
       // 2. 调用后端登录接口
-      const res = await userCenterLogin(code, userInfo)
+      const res = await userCenterLogin(code, userInfo, encryptedData, iv)
       
       // 3. 保存 Token 和用户信息
-      // 如果后端返回了新的 userInfo (可能包含 userId 等)，优先使用后端返回的
-      // 如果后端没返回完整 info 但我们前端获取到了，可以合并一下(视具体后端逻辑而定，这里假设 res.userInfo 是最终数据)
-      const finalUser = res.userInfo || res.user || userInfo
-      setAuth(res.token, finalUser)
-
-      // 4. 处理二维码扫描逻辑 (如果有)
-      if (this.data.qrcodeId) {
-        try { await qrScan(this.data.qrcodeId) } catch (_) { }
-        await qrConfirm(this.data.qrcodeId)
-        wx.showToast({ title: '已确认网页登录', icon: 'none' })
-      } else {
-        wx.showToast({ title: '登录成功', icon: 'none' })
-      }
-
-      // 5. 跳转首页
-      wx.reLaunch({ url: '/pages/tabs/home/index' })
+      setAuth(res.token, res.userInfo)
       
-    } catch (e) {
-      console.error('Login Error:', e)
-      let msg = e.message || e.errMsg || '登录失败'
-      if (typeof e === 'object' && !msg && JSON.stringify(e) !== '{}') {
-        msg = JSON.stringify(e)
+      wx.hideLoading()
+      wx.showToast({ title: '登录成功', icon: 'success' })
+
+      // 4. 检查是否需要完善资料
+      const u = res.userInfo
+      if (!u.nickname || u.nickname === '微信用户' || !u.avatarUrl) {
+        setTimeout(() => {
+          wx.navigateTo({ url: '/pages/auth/profile/index' })
+        }, 1000)
+      } else {
+        // 5. 处理扫码登录逻辑或跳转首页
+        if (this.data.qrcodeId) {
+          await qrScan(this.data.qrcodeId)
+          wx.navigateTo({ url: `/pages/auth/confirm/index?qrcodeId=${this.data.qrcodeId}` })
+        } else {
+          wx.switchTab({ url: '/pages/tabs/home/index' })
+        }
       }
-      wx.showToast({ title: String(msg), icon: 'none' })
-    } finally {
+    } catch (err) {
+      wx.hideLoading()
+      wx.showToast({ title: '登录失败: ' + err.message, icon: 'none' })
       this.setData({ loading: false })
     }
   }

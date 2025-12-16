@@ -1,0 +1,23 @@
+<view class="container">
+  <view class="header">
+    <text class="title">完善个人资料</text>
+    <text class="subtitle">让大家更好地认识你</text>
+  </view>
+
+  <view class="form-area">
+    <view class="form-item avatar-item">
+      <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+        <image class="avatar" src="{{avatarUrl || '/assets/default-avatar.png'}}" mode="aspectFill"></image>
+        <view class="camera-icon">📷</view>
+      </button>
+      <text class="label">点击修改头像</text>
+    </view>
+
+    <view class="form-item">
+      <text class="label">昵称</text>
+      <input type="nickname" class="input" placeholder="请输入昵称" value="{{nickname}}" bind:change="onNicknameChange" bindinput="onNicknameInput"/>
+    </view>
+  </view>
+
+  <button class="save-btn" bindtap="onSave" loading="{{loading}}" disabled="{{loading}}">保存</button>
+</view>
