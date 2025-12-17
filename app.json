@@ -3,7 +3,9 @@
     "pages/tabs/home/index",
     "pages/tabs/list/index",
     "pages/tabs/profile/index",
-    "pages/auth/login/login"
+    "pages/auth/login/login",
+    "pages/auth/confirm/index",
+    "pages/auth/profile/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -33,5 +35,6 @@
     ]
   },
   "style": "v2",
+  "lazyCodeLoading": "requiredComponents",
   "sitemapLocation": "sitemap.json"
 }

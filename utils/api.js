@@ -29,22 +29,22 @@ function requestBack(path, method, data, headers = {}) {
       url: `${ALMOND_BACK_BASE}${path}`,
       method,
       data,
-      header: { 
-        'Content-Type': 'application/json', 
+      header: {
+        'Content-Type': 'application/json',
         'Authorization': token ? `Bearer ${token}` : '',
-        ...headers 
+        ...headers
       },
       success: (res) => {
         console.log(`[Response Back] ${path}`, res)
         if (res.statusCode === 200) {
-            const result = res.data
-            if (result.code === 0 || result.code === 200) {
-                resolve(result.data)
-            } else {
-                reject(new Error(result.message || 'Request failed'))
-            }
+          const result = res.data
+          if (result.code === 0 || result.code === 200) {
+            resolve(result.data)
+          } else {
+            reject(new Error(result.message || 'Request failed'))
+          }
         } else {
-            reject(new Error(`HTTP Error ${res.statusCode}`))
+          reject(new Error(`HTTP Error ${res.statusCode}`))
         }
       },
       fail: (err) => {
@@ -77,7 +77,7 @@ export async function qrConfirm(qrcodeId) {
 export async function updateUserInfo(data) {
   const token = getToken()
   const resp = await requestUC('/front/users/update', 'POST', data, { Authorization: `Bearer ${token}` })
-  if (resp.code === 200) {
+  if (resp.code === 0 || resp.code === 200) {
     return resp.data
   }
   throw new Error(resp.message || '更新失败')
@@ -96,8 +96,8 @@ export function uploadAvatar(filePath) {
       success(res) {
         try {
           const data = JSON.parse(res.data)
-          if (data.code === 200) {
-            resolve(data.data) // URL
+          if (data.code === 0 || data.code === 200) {
+            resolve(data.message) // URL
           } else {
             reject(new Error(data.message || '上传失败'))
           }
@@ -120,26 +120,26 @@ export async function getMemoryItems(params = {}) {
 
 export async function saveMemoryItem(content) {
   const payload = {
-      title: content.slice(0, 20),
-      content: content,
-      itemType: 'text',
-      difficulty: 'medium'
+    title: content.slice(0, 20),
+    content: content,
+    itemType: 'text',
+    difficulty: 'medium'
   }
   return requestBack('/front/memory/items/create', 'POST', payload)
 }
 
 // Tasks
 export async function getTasks(params = {}) {
-    // params: { page, size, keyword, status }
-    return requestBack('/front/tasks/list', 'GET', params)
+  // params: { page, size, keyword, status }
+  return requestBack('/front/tasks/list', 'GET', params)
 }
 
 export async function createTask(title) {
-    const payload = {
-        title: title,
-        status: 'todo',
-        priority: 0,
-        level: 'inbox'
-    }
-    return requestBack('/front/tasks/create', 'POST', payload)
+  const payload = {
+    title: title,
+    status: 'todo',
+    priority: 0,
+    level: 'inbox'
+  }
+  return requestBack('/front/tasks/create', 'POST', payload)
 }
