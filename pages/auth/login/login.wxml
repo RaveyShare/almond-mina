@@ -1,6 +1,8 @@
 <view class="container">
   <view class="logo-area">
-    <view class="logo">🧠</view>
+    <view class="logo">
+      <image class="logo-brain" src="/images/brain.svg" mode="aspectFit" />
+    </view>
     <view class="app-name">小杏仁</view>
     <view class="slogan">AI 成长伙伴</view>
   </view>

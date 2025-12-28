@@ -1,56 +1,95 @@
 <view class="container">
-  <!-- Header -->
-  <view class="header">
-    <view class="logo">🧠</view>
-    <text class="title">小杏仁</text>
+  <!-- 几何渐变背景 -->
+  <view class="geometric-background">
+    <view class="gradient-circle gradient-circle-1"></view>
+    <view class="gradient-circle gradient-circle-2"></view>
+    <view class="gradient-circle gradient-circle-3"></view>
+    <view class="grid-overlay"></view>
+    <view class="gradient-mask"></view>
   </view>
 
-  <!-- Welcome -->
-  <view class="welcome">
-    <text class="greeting">欢迎回来，{{userInfo.name || userInfo.nickName || '同学'}}</text>
-    <view class="subtitle">今天想记录点什么？</view>
-  </view>
-
-  <!-- Input Section -->
-  <view class="input-card">
-    <!-- Type Toggle -->
-    <view class="toggle-container">
-      <view class="toggle-item {{inputType === 'memory' ? 'active' : ''}}" bindtap="toggleType" data-type="memory">
-        记知识
+  <!-- 内容层 -->
+  <view class="content-layer">
+    <!-- Hero 区域 -->
+    <view class="hero-section" animation="{{heroAnimation}}" style="opacity: 0; transform: translateY(30rpx);">
+      <!-- Logo 图标 -->
+      <view class="logo-container" animation="{{logoAnimation}}" style="opacity: 0; transform: translateY(20rpx) scale(0.5);">
+        <view class="logo-gradient">
+          <image class="logo-brain" src="/images/brain.svg" mode="aspectFit" />
+        </view>
       </view>
-      <view class="toggle-item {{inputType === 'task' ? 'active' : ''}}" bindtap="toggleType" data-type="task">
-        记待办
+
+      <!-- 渐变标题 -->
+      <view class="hero-title" animation="{{titleAnimation}}" style="opacity: 0; transform: translateY(30rpx);">
+        <text class="title-gradient">小杏仁</text>
+      </view>
+
+      <!-- 副标题 -->
+      <view class="hero-subtitle">
+        <text>👋 欢迎来到小杏仁，这里不是任务清单，也不是笔记本</text>
+      </view>
+
+      <view class="hero-description">
+        <text>想到什么，先放一颗杏仁</text>
       </view>
     </view>
 
-    <!-- Input Box -->
-    <view class="input-box">
-      <textarea 
-        class="textarea"
-        placeholder="{{inputType === 'memory' ? '输入你想永久记住的知识、灵感...' : '输入你的待办事项、下一步计划...'}}"
-        placeholder-class="placeholder"
-        value="{{inputValue}}"
-        bindinput="handleInput"
-        auto-height
-        maxlength="500"
-      />
-      <view class="action-bar">
+    <!-- Input Section -->
+    <view class="input-card" animation="{{inputAnimation}}" style="opacity: 0; transform: translateY(20rpx);">
+      <!-- Input Box -->
+      <view class="input-box">
+        <textarea
+          class="textarea"
+          placeholder="{{currentPlaceholder}}"
+          placeholder-class="placeholder"
+          value="{{inputValue}}"
+          bindinput="handleInput"
+          auto-height
+          maxlength="500"
+        />
         <view class="submit-btn {{loading ? 'disabled' : ''}}" bindtap="handleSubmit">
            <text class="icon-arrow">↑</text>
         </view>
       </view>
     </view>
-  </view>
 
-  <!-- Dashboard Cards -->
-  <view class="dashboard">
-    <view class="card">
-       <text class="count text-cyan">{{dashboard.reviewCount}}</text>
-       <text class="label">今日待复习</text>
+    <!-- Dashboard Cards -->
+    <view class="dashboard">
+      <view class="card">
+         <text class="count text-cyan">{{dashboard.reviewCount}}</text>
+         <text class="label">今日待复习</text>
+      </view>
+      <view class="card">
+         <text class="count text-violet">{{dashboard.taskCount}}</text>
+         <text class="label">待办事项</text>
+      </view>
     </view>
-    <view class="card">
-       <text class="count text-violet">{{dashboard.taskCount}}</text>
-       <text class="label">待办事项</text>
+
+    <!-- 功能介绍 -->
+    <view class="feature-section" animation="{{featureAnimation}}" style="opacity: 0; transform: translateY(20rpx);">
+      <view class="feature-card">
+        <view class="feature-icon icon-cyan">
+          <text>🧠</text>
+        </view>
+        <view class="feature-title">智能分析</view>
+        <view class="feature-description">AI 自动分析你的想法，提供记忆辅助和行动建议</view>
+      </view>
+
+      <view class="feature-card">
+        <view class="feature-icon icon-violet">
+          <text>📅</text>
+        </view>
+        <view class="feature-title">智能复习</view>
+        <view class="feature-description">基于记忆曲线，在最佳时间提醒复习重要内容</view>
+      </view>
+
+      <view class="feature-card">
+        <view class="feature-icon icon-green">
+          <text>→</text>
+        </view>
+        <view class="feature-title">行动转化</view>
+        <view class="feature-description">将想法转化为具体任务，AI 协助制定执行计划</view>
+      </view>
     </view>
   </view>
 </view>

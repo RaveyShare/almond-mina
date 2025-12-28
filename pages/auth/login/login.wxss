@@ -14,8 +14,20 @@
 }
 
 .logo {
-  font-size: 120rpx;
-  margin-bottom: 32rpx;
+  width: 160rpx;
+  height: 160rpx;
+  margin: 0 auto 32rpx;
+  border-radius: 40rpx;
+  box-shadow: 0 20rpx 60rpx rgba(34, 211, 238, 0.3);
+  background: linear-gradient(135deg, #22d3ee 0%, #8b5cf6 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-brain {
+  width: 60%;
+  height: 60%;
 }
 
 .app-name {

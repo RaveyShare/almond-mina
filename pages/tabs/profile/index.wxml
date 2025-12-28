@@ -1,7 +1,7 @@
 <view class="container">
   <!-- User Info -->
   <view class="profile-header">
-    <image class="avatar" src="{{userInfo.avatar || ''}}" mode="aspectFill"></image>
+    <image class="avatar" src="{{userInfo.avatar || userInfo.avatarUrl || '/assets/default-avatar.png'}}" mode="aspectFill"></image>
     <view class="info">
       <text class="nickname">{{userInfo.nickname || userInfo.name || '未登录用户'}}</text>
       <text class="uid">ID: {{userInfo.id || '--'}}</text>

@@ -19,9 +19,19 @@
   margin-bottom: 48rpx;
 }
 
-.icon {
+.confirm-logo {
   width: 120rpx;
   height: 120rpx;
+  border-radius: 28rpx;
+  background: linear-gradient(135deg, #22d3ee 0%, #8b5cf6 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-brain {
+  width: 55%;
+  height: 55%;
 }
 
 .title {
