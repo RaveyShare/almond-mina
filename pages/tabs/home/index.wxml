@@ -26,11 +26,11 @@
 
       <!-- 副标题 -->
       <view class="hero-subtitle">
-        <text>👋 欢迎来到小杏仁，这里不是任务清单，也不是笔记本</text>
+        <text>想到什么，先放下一颗杏仁。</text>
       </view>
 
       <view class="hero-description">
-        <text>想到什么，先放一颗杏仁</text>
+        <text>不需要想清楚，\n小杏仁会慢慢帮你理清。</text>
       </view>
     </view>
 
@@ -46,11 +46,82 @@
           bindinput="handleInput"
           auto-height
           maxlength="500"
+          disabled="{{status === 'processing'}}"
         />
-        <view class="submit-btn {{loading ? 'disabled' : ''}}" bindtap="handleSubmit">
+        <view class="submit-btn {{loading || status === 'processing' ? 'disabled' : ''}}" bindtap="handleSubmit">
            <text class="icon-arrow">↑</text>
         </view>
       </view>
+    </view>
+
+    <!-- Status Area -->
+    <view class="status-area" wx:if="{{status !== 'idle'}}" animation="{{statusAnimation}}">
+      
+      <!-- Processing -->
+      <block wx:if="{{status === 'processing'}}">
+        <view class="status-card">
+           <view class="status-header">
+             <text class="status-icon">🌱</text>
+             <text class="status-title">已放下一颗杏仁</text>
+           </view>
+           <text class="status-desc">我们在帮你慢慢理解它……</text>
+        </view>
+      </block>
+
+      <!-- Converted -->
+      <block wx:if="{{status === 'converted'}}">
+        <view class="status-card">
+           <view class="status-header">
+             <text class="status-icon">🧠</text>
+             <text class="status-title">这颗杏仁更像是一段「记忆」</text>
+           </view>
+           <text class="status-desc">已经帮你整理好了</text>
+           <view class="status-actions">
+             <view class="action-btn" bindtap="handleView">查看</view>
+             <view class="action-btn" bindtap="handleEditType">修改分类</view>
+           </view>
+        </view>
+      </block>
+
+      <!-- Need Confirm -->
+      <block wx:if="{{status === 'need_confirm'}}">
+        <view class="status-card">
+           <view class="status-header">
+             <text class="status-icon">🤔</text>
+             <text class="status-title">这颗杏仁更像什么？</text>
+           </view>
+           <view class="type-grid">
+             <view class="type-btn" bindtap="handleConfirmType" data-type="memory">
+               <text class="type-icon">🧠</text>
+               <text class="type-text">记忆</text>
+             </view>
+             <view class="type-btn" bindtap="handleConfirmType" data-type="todo">
+               <text class="type-icon">📝</text>
+               <text class="type-text">待办</text>
+             </view>
+             <view class="type-btn" bindtap="handleConfirmType" data-type="review">
+               <text class="type-icon">📅</text>
+               <text class="type-text">复盘</text>
+             </view>
+             <view class="type-btn" bindtap="handleConfirmType" data-type="goal">
+               <text class="type-icon">🎯</text>
+               <text class="type-text">目标</text>
+             </view>
+           </view>
+           <text class="status-hint" bindtap="handleReset">也可以先放着，之后再说</text>
+        </view>
+      </block>
+
+      <!-- Confirmed -->
+      <block wx:if="{{status === 'confirmed'}}">
+        <view class="status-card status-success">
+           <view class="status-header">
+             <text class="status-icon">✅</text>
+             <text class="status-title">好的，这颗杏仁已经整理完成</text>
+           </view>
+        </view>
+      </block>
+
     </view>
 
     <!-- Dashboard Cards -->

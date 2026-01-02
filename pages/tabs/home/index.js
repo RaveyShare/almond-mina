@@ -5,6 +5,8 @@ Page({
   data: {
     inputValue: '',
     loading: false,
+    status: 'idle', // idle, processing, converted, need_confirm, confirmed
+    statusAnimation: null,
 
     // 动态 placeholder
     placeholders: [
@@ -63,22 +65,65 @@ Page({
 
   async handleSubmit() {
     if (!this.data.inputValue.trim()) return
-    if (this.data.loading) return
+    if (this.data.loading || this.data.status === 'processing') return
 
-    this.setData({ loading: true })
+    const value = this.data.inputValue;
+    this.setData({ 
+        status: 'processing',
+        inputValue: '' 
+    })
+    
+    // 状态区域入场动画
+    const anim = wx.createAnimation({ duration: 300, timingFunction: 'ease-out' })
+    anim.opacity(1).translateY(0).step()
+    this.setData({ statusAnimation: anim.export() })
+
     try {
-      // 统一调用保存接口，由后端 AI 自动判断类型
-      await saveMemoryItem(this.data.inputValue)
-      wx.showToast({ title: '已保存', icon: 'success' })
-
-      this.setData({ inputValue: '' })
-      this.loadDashboard()
+      // 模拟调用保存接口
+      // await saveMemoryItem(value)
+      
+      // 模拟 AI 处理延迟
+      setTimeout(() => {
+          const isHighConfidence = Math.random() > 0.4;
+          if (isHighConfidence) {
+              this.setData({ status: 'converted' });
+          } else {
+              this.setData({ status: 'need_confirm' });
+          }
+          this.loadDashboard();
+      }, 1500);
+      
     } catch (err) {
       wx.showToast({ title: '保存失败', icon: 'none' })
-      console.error(err)
-    } finally {
-      this.setData({ loading: false })
+      this.setData({ status: 'idle' })
     }
+  },
+
+  handleView() {
+      // 模拟查看详情，暂时直接完成
+      this.finishStatus();
+  },
+
+  handleEditType() {
+      this.setData({ status: 'need_confirm' });
+  },
+
+  handleConfirmType(e) {
+      const type = e.currentTarget.dataset.type;
+      console.log('Selected type:', type);
+      // 这里应该调用 API 更新类型
+      this.finishStatus();
+  },
+  
+  handleReset() {
+      this.setData({ status: 'idle' });
+  },
+
+  finishStatus() {
+      this.setData({ status: 'confirmed' });
+      setTimeout(() => {
+          this.setData({ status: 'idle' });
+      }, 2000);
   },
 
   async loadDashboard() {
